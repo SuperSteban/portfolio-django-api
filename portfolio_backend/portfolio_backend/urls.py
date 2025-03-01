@@ -23,7 +23,12 @@ from projects.views import ProjectViewSet, ProjectListViewPublic, ProjectFilterL
 from search.views import GlobalSearchView
 from blogs.views import BlogViewSet 
 from blogs.views import BlogListViewPublic
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshSlidingView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -35,15 +40,13 @@ router.register(r'blogs', BlogViewSet, basename='blogs')
 
 
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(router.urls)),
     path('api/search/', GlobalSearchView.as_view(), name='buscar'),
     path("api/users/register/", CreateUserView.as_view(), name="register"),
-    path("api/token", TokenObtainPairView.as_view(), name="get_token"),
-    path("api/token/refresh", TokenRefreshSlidingView.as_view(), name="refresh"),
+    path("api/token/", TokenObtainPairView.as_view(), name="get_token"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("api/public/blogs/", BlogListViewPublic.as_view(), name='blogs_public'),
     path("api/public/projects/", ProjectListViewPublic.as_view(), name='projects_public'),
     path("api/public/projects-filter/", ProjectFilterListViewPublic.as_view(), name='projects_public_filter'),
